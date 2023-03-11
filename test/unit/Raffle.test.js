@@ -83,4 +83,13 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   assert(upkeepNeeded)
               })
           })
+          describe("performUpkeep", function () {
+              it("it can only run if checkupKeep is ture", async function () {
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+                  await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+                  await network.provider.send("evm_mine", [])
+                  const tx = await raffle.performUpkeep([])
+                  assert(tx)
+              })
+          })
       })
